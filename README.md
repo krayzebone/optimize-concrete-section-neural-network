@@ -1,1 +1,1 @@
-# optimize_concrete_section_nn
+# optimize-concrete-section-neural-netowrk
