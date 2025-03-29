@@ -1,0 +1,2 @@
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted -Force
+venv\Scripts\Activate

@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 # 1. Data Configuration
 DATA_CONFIG = {
-    'filepath': r"C:\Users\marci\Desktop\Nowy SGU\dataset\files\dataset.parquet",
+    'filepath': r"dataset\files\dataset.parquet",
     'features': ["b", "h", "d", "fi", "fck", "ro1", "ro2"],
     'target': "Mcr",
     'test_size': 0.3,
@@ -65,7 +65,7 @@ TRAINING_CONFIG = {
 
 # 6. Output Configuration
 OUTPUT_CONFIG = {
-    'save_path': r"C:\Users\marci\Desktop\Nowy SGU\models\Mcr_model",
+    'save_path': r"models\Mcr_model",
     'visualization': {
         'max_samples': 10000,
         'histogram_bins': 100

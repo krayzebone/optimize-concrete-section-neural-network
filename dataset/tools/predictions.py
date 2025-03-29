@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 # ============================================
 # Load the Preprocessed Data
 # ============================================
-file_path = r"C:\Users\marci\Desktop\Nowy SGU\dataset\files\dataset.parquet"
+file_path = r"dataset/files/dataset.parquet"
 if not os.path.exists(file_path):
     raise FileNotFoundError(f"File not found: {file_path}")
 
@@ -27,9 +27,9 @@ if not all(col in df.columns for col in expected_columns):
 # ============================================
 # Load the Trained Model and Scalers
 # ============================================
-model_path = r"C:\Users\marci\Desktop\Nowy SGU\models\MRd_model\model.keras"
-scaler_X_path = r"C:\Users\marci\Desktop\Nowy SGU\models\MRd_model\scaler_X.pkl"
-scaler_y_path = r"C:\Users\marci\Desktop\Nowy SGU\models\MRd_model\scaler_y.pkl"
+model_path = r"models\MRd_model\model.keras"
+scaler_X_path = r"models\MRd_model\scaler_X.pkl"
+scaler_y_path = r"models\MRd_model\scaler_y.pkl"
 
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"Model file not found: {model_path}")
