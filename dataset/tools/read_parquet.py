@@ -3,7 +3,6 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 
 # Specify the path to your .parquet file
-#parquet_file_path_preprocessed_data = r"C:\Users\marci\Desktop\Lagrange\dataset_files\preprocessed_files\preprocessed_results.parquet"
 parquet_file_path = r"dataset/files/dataset.parquet"
 
 # Read the .parquet file into a DataFrame
