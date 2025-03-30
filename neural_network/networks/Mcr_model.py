@@ -66,8 +66,8 @@ TRANSFORMATION_CONFIG = {
 }
 
 SCALER_CONFIG = {
-    'X_scaler': StandardScaler(),
-    'y_scaler': StandardScaler()
+    'X_scaler': MinMaxScaler(),
+    'y_scaler': MinMaxScaler()
 }
 
 MODEL_CONFIG = {
