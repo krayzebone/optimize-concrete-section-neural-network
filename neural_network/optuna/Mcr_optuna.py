@@ -66,7 +66,7 @@ def create_model(trial):
     model.compile(
         optimizer=keras.optimizers.Adam(learning_rate=lr),
         loss='mse',
-        metrics=['mse']    
+        metrics=['mae']    
     )
     return model
 
