@@ -4,23 +4,27 @@ import optuna
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import layers # type: ignore
+from tensorflow.keras import layers  # type: ignore
 
 tf.random.set_seed(38)
 
 # ============================================
 # Data Loading and Preprocessing
 # ============================================
-df = df = pd.read_parquet("dataset/files/dataset.parquet")
+df = pd.read_parquet(r"dataset\files\dataset_new.parquet")
 
 features = ["b", "d", "h", "fi", "fck", "ro1", "ro2"]
 target = "MRd"
 
-X = df[features].values   # shape: (n_samples, 8)
-y = df[target].values.reshape(-1, 1)     # shape: (n_samples, 1)
+# Log-transform features and target
+df[features] = np.log(df[features])
+df[target] = np.log(df[target])  # Also log-transform the target
+
+X = df[features].values           # shape: (n_samples, len(features))
+y = df[target].values.reshape(-1, 1)  # shape: (n_samples, 1)
 
 # Standardize the features and targets
 scaler_X = StandardScaler()
@@ -99,7 +103,7 @@ def objective(trial):
 # Run the Optuna Study
 # ============================================
 study = optuna.create_study(direction="minimize")
-study.optimize(objective, n_trials=50)
+study.optimize(objective, n_trials=100)
 
 # Print best trial results
 print("Best trial:")

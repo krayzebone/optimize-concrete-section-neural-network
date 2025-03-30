@@ -4,10 +4,10 @@ import optuna
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import layers # type: ignore
+from tensorflow.keras import layers  # type: ignore
 
 tf.random.set_seed(38)
 
@@ -19,8 +19,12 @@ df = pd.read_parquet(r"dataset\files\dataset_new.parquet")
 features = ["b", "d", "h", "fi", "fck", "ro1", "ro2"]
 target = "Mcr"
 
-X = df[features].values   # shape: (n_samples, 8)
-y = df[target].values.reshape(-1, 1)     # shape: (n_samples, 1)
+# Log-transform features and target
+df[features] = np.log(df[features])
+df[target] = np.log(df[target])  # Also log-transform the target
+
+X = df[features].values           # shape: (n_samples, len(features))
+y = df[target].values.reshape(-1, 1)  # shape: (n_samples, 1)
 
 # Standardize the features and targets
 scaler_X = StandardScaler()
@@ -86,7 +90,7 @@ def objective(trial):
     history = model.fit(
         X_train, y_train,
         validation_data=(X_val, y_val),
-        epochs=150,
+        epochs=100,
         batch_size=batch_size,
         callbacks=[early_stop],
         verbose=0
