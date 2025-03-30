@@ -18,19 +18,19 @@ tf.random.set_seed(38)
 # ============================================
 # Define named functions for transformations (pickle-friendly)
 # ============================================
-def identity_transform(x):
+def no_transform(x):
     return x
 
 def log_transform(x):
     return np.log(x)
 
-def exp_inverse(x):
+def log_inverse(x):
     return np.exp(x)
 
 def sqrt_transform(x):
     return np.sqrt(x)
 
-def square_inverse(x):
+def sqrt_inverse(x):
     return x**2
 
 # ============================================
@@ -39,7 +39,7 @@ def square_inverse(x):
 
 # 1. Data Configuration
 DATA_CONFIG = {
-    'filepath': r"dataset\files\dataset.parquet",
+    'filepath': r"dataset\files\dataset_new.parquet",
     'features': ["b", "h", "d", "fi", "fck", "ro1", "ro2"],
     'target': "Mcr",
     'test_size': 0.3,
@@ -50,24 +50,21 @@ DATA_CONFIG = {
 # Now using named functions instead of lambdas
 TRANSFORMATION_CONFIG = {
     'features': {
-        # Feature-specific transformations (applied before scaling)
         # Format: 'feature_name': {'transform': func, 'inverse_transform': func, 'epsilon': value}
-        'b': {'transform': log_transform, 'inverse_transform': exp_inverse, 'epsilon': 1e-8},
-        'h': {'transform': log_transform, 'inverse_transform': exp_inverse, 'epsilon': 1e-8},
-        'd': {'transform': log_transform, 'inverse_transform': exp_inverse, 'epsilon': 1e-8},
-        'fi': {'transform': log_transform, 'inverse_transform': exp_inverse, 'epsilon': 1e-8},
-        'fck': {'transform': log_transform, 'inverse_transform': exp_inverse, 'epsilon': 1e-8},
-        'ro1': {'transform': log_transform, 'inverse_transform': exp_inverse, 'epsilon': 1e-8},
-        'ro2': {'transform': log_transform, 'inverse_transform': exp_inverse, 'epsilon': 1e-8},
+        'b': {'transform': log_transform, 'inverse_transform': log_inverse, 'epsilon': 1e-8},
+        'h': {'transform': log_transform, 'inverse_transform': log_inverse, 'epsilon': 1e-8},
+        'd': {'transform': log_transform, 'inverse_transform': log_inverse, 'epsilon': 1e-8},
+        'fi': {'transform': log_transform, 'inverse_transform': log_inverse, 'epsilon': 1e-8},
+        'fck': {'transform': log_transform, 'inverse_transform': log_inverse, 'epsilon': 1e-8},
+        'ro1': {'transform': log_transform, 'inverse_transform': log_inverse, 'epsilon': 1e-8},
+        'ro2': {'transform': log_transform, 'inverse_transform': log_inverse, 'epsilon': 1e-8},
     },
+
     'target': {
-        'transform': log_transform,
-        'inverse_transform': exp_inverse,
-        'epsilon': 1e-8
+        'transform': log_transform, 'inverse_transform': log_inverse, 'epsilon': 1e-8
     }
 }
 
-# [Rest of your configuration remains the same...]
 SCALER_CONFIG = {
     'X_scaler': StandardScaler(),
     'y_scaler': StandardScaler()
@@ -89,14 +86,14 @@ TRAINING_CONFIG = {
     'epochs': 100,
     'callbacks': [
         EarlyStopping(monitor='val_loss', patience=500, restore_best_weights=True),
-        ReduceLROnPlateau(monitor='val_loss', factor=0.9, patience=50, min_lr=1e-8),
+        ReduceLROnPlateau(monitor='val_loss', factor=0.9, patience=10, min_lr=1e-8),
     ]
 }
 
 OUTPUT_CONFIG = {
     'save_path': r"models\Mcr_model",
     'visualization': {
-        'max_samples': 10000,
+        'max_samples': 100000,
         'histogram_bins': 100
     },
     'save_transformers': True
